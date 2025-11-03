@@ -1,32 +1,26 @@
-import {inject, Injectable, NgZone} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {inject, Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
-import {AuthFacade} from './store/auth.facade';
 import {RegistrationRequest} from './models/registration-request.model';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-    private authFacade: AuthFacade = inject(AuthFacade);
     private http: HttpClient = inject(HttpClient);
-    private ngZone: NgZone = inject(NgZone);
 
     getCurrentUser(): Observable<any> {
         return this.http.get(`${environment.apiBaseUrl}/api/auth/user`, {withCredentials: true});
     }
 
     login(username: string, password: string): Observable<any> {
-        const body = new URLSearchParams();
-        body.set('username', username);
-        body.set('password', password);
+        const body = {
+            email: username,
+            password: password
+        };
 
-        const headers = new HttpHeaders({
-            'Content-Type': 'application/x-www-form-urlencoded'
-        });
-
-        // This will trigger the form login flow on the backend and set the JSESSIONID cookie.
-        return this.http.post(`${environment.apiBaseUrl}/api/auth/login`, body.toString(), { headers, withCredentials: true });
+        // Sends JSON body - Spring Security will set the cookie upon successful authentication
+        return this.http.post(`${environment.apiBaseUrl}/api/auth/login`, body, { withCredentials: true });
     }
 
     register(request: RegistrationRequest): Observable<any> {
