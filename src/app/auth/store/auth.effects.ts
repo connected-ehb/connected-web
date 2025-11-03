@@ -60,7 +60,8 @@ export class AuthEffects {
                         console.warn('Server-side rendering active: Skipping redirect to login.');
                     }
                 })
-            )
+            ),
+        { dispatch: false }
     );
 
     readonly login$ = createEffect(() =>
