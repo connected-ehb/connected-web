@@ -92,6 +92,15 @@
                     </ul>
                 </section>
 
+                <section class="section" *ngIf="(isMember$ | async)">
+                    <h3 class="section-label">ACTIONS</h3>
+                    <div class="section-body">
+                        <app-button variant="danger" (click)="openLeaveModal()">
+                            Leave Project
+                        </app-button>
+                    </div>
+                </section>
+
                 <section class="section" *ngIf="repositoryUrl || boardUrl">
                     <h3 class="section-label">LINKS</h3>
                     <div class="section-body links">
@@ -116,3 +125,14 @@
         </div>
     }
 </div>
+
+@if (showLeaveModal) {
+    <app-confirmation-modal
+        [title]="'Leave Project'"
+        [message]="'Are you sure you want to leave this project?'"
+        [confirmText]="'Leave'"
+        [cancelText]="'Cancel'"
+        (confirm)="confirmLeave()"
+        (cancel)="closeLeaveModal()">
+    </app-confirmation-modal>
+}
