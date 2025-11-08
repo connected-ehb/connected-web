@@ -1,0 +1,22 @@
+<div class="activity-log">
+
+    @if (!events || events.length === 0) {
+        <div class="empty-state">No activity recorded yet.</div>
+    }
+
+    @for (event of events; track event) {
+        <div class="activity-entry">
+            <div class="line"></div>
+
+            <div class="activity-content">
+                <div class="activity-header">
+                    <span class="message">{{ event.message }}</span>
+                </div>
+
+                <div class="timestamp">
+                    {{ event.date | date:'medium' }} · {{ event.date | date:'shortTime' }}
+                </div>
+            </div>
+        </div>
+    }
+</div>

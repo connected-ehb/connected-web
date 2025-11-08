@@ -1,0 +1,64 @@
+@use "../../../../../../styles/variables.scss" as *;
+
+.activity-log {
+    position: relative;
+    margin-top: $spacing-md;
+}
+
+.activity-entry {
+    display: flex;
+    position: relative;
+    padding-left: $spacing-xl;
+    margin-bottom: $spacing-lg;
+}
+
+.activity-entry::before {
+    content: "";
+    position: absolute;
+    left: $spacing-sm;
+    top: 0;
+    bottom: -$spacing-lg;
+    width: 2px;
+    background: $accent-color;
+}
+
+.line {
+    position: absolute;
+    left: calc(#{$spacing-sm} - 4px);
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: $primary-color;
+}
+
+.activity-content {
+    background: $bg-1;
+    border: $border;
+    border-radius: $border-radius-sm;
+    padding: $spacing-sm $spacing-md;
+    width: 100%;
+    box-shadow: $shadow-s;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+}
+
+.message {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: $text-color-dark;
+}
+
+.timestamp {
+    font-size: 0.75rem;
+    color: $text-color-light;
+    text-transform: capitalize;
+}
+
+.empty-state {
+    text-align: center;
+    color: $text-color-light;
+    font-style: italic;
+    margin-top: $spacing-xl;
+}

@@ -9,7 +9,7 @@ const loadMembers = () => import('./project-details/components/members/members.c
 const loadApplications = () => import('./project-details/components/applications/applications.component').then(m => m.ApplicationsComponent);
 const loadProjectUpdate = () => import('./project-update/project-update.component').then(m => m.ProjectUpdateComponent);
 const loadProjectApply = () => import('../applications-create/applications-create.component').then(m => m.ApplicationsCreateComponent);
-
+const loadEvents = () => import('./project-details/components/events/events.component').then(m => m.EventsComponent);
 export const PROJECT_ROUTES: Routes = [
     {
         path: '',
@@ -31,6 +31,7 @@ export const PROJECT_ROUTES: Routes = [
             {path: 'feedback', loadComponent: loadFeedback},
             {path: 'members', loadComponent: loadMembers},
             {path: 'applications', loadComponent: loadApplications},
+            {path: 'events', loadComponent: loadEvents},
             {path: 'edit', loadComponent: loadProjectUpdate},
             {path: '', redirectTo: 'overview', pathMatch: 'full'}
         ]
