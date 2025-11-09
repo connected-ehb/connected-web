@@ -22,7 +22,7 @@ export class UserService {
     updateUserProfile(updatedUser: Partial<User>): Observable<User> {
 
         return this.http.patch<User>(
-            `${this.baseUrl}/api/users/update`,
+            `${this.baseUrl}/api/users/me`,
             updatedUser,
             {
                 withCredentials: true
@@ -38,5 +38,4 @@ export class UserService {
             })
         );
     }
-
 }

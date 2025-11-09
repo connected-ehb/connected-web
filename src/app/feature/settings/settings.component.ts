@@ -57,7 +57,7 @@ export class SettingsComponent {
     requestAccountDeletion(){
         this.isLoading = true;
         this.errorMessage = '';
-        this.http.post(`${environment.apiBaseUrl}/api/users/request-delete`, {}, { withCredentials: true }).subscribe({
+        this.http.post(`${environment.apiBaseUrl}/api/users/me/request-delete`, {}, { withCredentials: true }).subscribe({
             next: () => {
                 this.toastService.showToast('info', 'Account deletion requested');
                 this.isLoading = false;
