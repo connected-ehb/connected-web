@@ -6,17 +6,19 @@
 
     @for (event of events; track event) {
         <div class="activity-entry">
-            <div class="line"></div>
+            <fa-icon class="event-icon" [icon]="getIcon(event.type)"></fa-icon>
 
-            <div class="activity-content">
-                <div class="activity-header">
-                    <span class="message">{{ event.message }}</span>
+            <div class="activity-info">
+                <div class="activity-message">
+                    <span class="actor">{{ event.username }}</span>
+                    <span>{{ event.message }}</span>
                 </div>
 
-                <div class="timestamp">
-                    {{ event.date | date:'medium' }} · {{ event.date | date:'shortTime' }}
+                <div class="meta">
+                    {{ event.date | date:'mediumDate' }} · {{ event.date | date:'shortTime' }}
                 </div>
             </div>
         </div>
     }
+
 </div>

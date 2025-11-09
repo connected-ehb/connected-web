@@ -2,12 +2,14 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectEventService } from '../../../../../core/services/project-event.service';
-import { ProjectEventDetails } from '../../../../../shared/models/project-event.model';
+import {ProjectEventDetails, ProjectEventIconMap} from '../../../../../shared/models/project-event.model';
+import {ProjectEventType} from '../../../../../shared/models/project-event-type.enum';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
     selector: 'app-project-events',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, FontAwesomeModule],
     templateUrl: './events.component.html',
     styleUrls: ['./events.component.scss'],
 })
@@ -27,5 +29,9 @@ export class EventsComponent implements OnInit {
                 error: () => (this.events = []),
             });
         }
+    }
+
+    getIcon(type: ProjectEventType) {
+        return ProjectEventIconMap[type];
     }
 }
