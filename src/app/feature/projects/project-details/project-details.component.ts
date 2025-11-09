@@ -28,6 +28,7 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
 
     public project$: Observable<Project> | null = null;
     public canManageProject$!: Observable<boolean>;
+    public isTeacher$!: Observable<boolean>;
     public isOwner$!: Observable<boolean>;
     public isCreatedByTeacher$!: Observable<boolean>;
     icons = ICONS;
@@ -42,6 +43,7 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
 
                 const projectSubscription = this.project$.subscribe(project => {
                     this.isOwner$ = this.authorizationService.isOwner$(project);
+                    this.isTeacher$ = this.authorizationService.isTeacher$();
                     this.canManageProject$ = this.authorizationService.canManageProject$(project);
                     this.isCreatedByTeacher$ = this.authorizationService.isCreatedByTeacher$(project);
                 });

@@ -10,6 +10,9 @@
       @if ((canManageProject$ | async)) {
         <a routerLink="applications" routerLinkActive="active-tab">Applications</a>
       }
+        @if ((isTeacher$ | async)) {
+        <a routerLink="events" routerLinkActive="active-tab">Events</a>
+        }
     </div>
     <div class="project-tabs__right">
       @if ((canManageProject$ | async)) {
