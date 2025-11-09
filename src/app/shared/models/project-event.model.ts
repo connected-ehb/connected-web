@@ -11,6 +11,7 @@ import {
     faGear,
     faDownload,
     faArrowsRotate,
+    faPenToSquare,
 } from '@fortawesome/free-solid-svg-icons';
 
 export interface ProjectEventDetails {
@@ -29,5 +30,6 @@ export const ProjectEventIconMap: Record<ProjectEventType, IconDefinition> = {
     PROJECT_CLAIMED: faHandshakeAngle,
     STATUS_CHANGED: faArrowsRotate,
     PROJECT_IMPORTED: faDownload,
-    PRODUCT_OWNER_REASSIGNED: faGear
+    PRODUCT_OWNER_REASSIGNED: faGear,
+    PROJECT_UPDATED: faPenToSquare
 };
