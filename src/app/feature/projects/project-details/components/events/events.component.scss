@@ -1,0 +1,74 @@
+@use "../../../../../../styles/variables.scss" as *;
+
+.activity-log {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding-top: $spacing-sm;
+}
+
+.activity-entry {
+    display: flex;
+    gap: $spacing-sm;
+    position: relative;
+    padding-left: $spacing-xs;
+}
+
+.activity-entry::before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 38px;
+    bottom: -$spacing-md;
+    width: 2px;
+    background: $accent-color;
+}
+
+.event-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $border-radius-sm;
+    background: $bg--1;
+    border: $border;
+    color: $primary-color;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.activity-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: $spacing-xs $spacing-sm;
+    background: $bg-1;
+    border-radius: $border-radius-xs;
+    box-shadow: $shadow-s;
+    border: $border;
+}
+
+.activity-message {
+    font-size: 0.95rem;
+    color: $text-color-dark;
+    font-weight: 500;
+}
+
+.actor {
+    color: $primary-color;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.meta {
+    font-size: 0.75rem;
+    color: $text-color-light;
+}
+
+.empty-state {
+    margin-top: $spacing-xl;
+    text-align: center;
+    font-style: italic;
+    color: $text-color-light;
+}

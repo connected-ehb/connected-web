@@ -168,4 +168,10 @@ export class ProjectService {
             withCredentials: true
         });
     }
+
+    leaveProject(projectId: number): Observable<void> {
+        return this.http.delete<void>(`${environment.apiBaseUrl}/api/projects/${projectId}/leave`, {
+            withCredentials: true
+        });
+    }
 }
