@@ -11,6 +11,7 @@ import {provideEffects} from '@ngrx/effects';
 import {authReducer} from './auth/store/auth.reducer';
 import {AuthEffects} from './auth/store/auth.effects';
 import {authInterceptor} from './auth/interceptor/auth.interceptor';
+import {csrfInterceptor} from './auth/interceptor/csrf.interceptor';
 import {FormsModule} from '@angular/forms';
 import {LayoutModule} from '@angular/cdk/layout';
 import {NgxEditorModule} from 'ngx-editor';
@@ -22,7 +23,7 @@ export const appConfig: ApplicationConfig = {
         provideZoneChangeDetection({eventCoalescing: true}),
         provideRouter(routes),
         provideClientHydration(withEventReplay()),
-        provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+        provideHttpClient(withFetch(), withInterceptors([csrfInterceptor, authInterceptor])),
         provideStore({auth: authReducer}),
         provideEffects([AuthEffects]),
         importProvidersFrom(

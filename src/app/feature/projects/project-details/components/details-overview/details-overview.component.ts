@@ -21,6 +21,9 @@ import {
     ProjectStatusSelectComponent
 } from '../../../../../shared/components/project-status-select/project-status-select.component';
 import {StatuscardComponent} from '../../../../../shared/components/statuscard/statuscard.component';
+import {
+    ConfirmationModalComponent
+} from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
     selector: 'app-details-overview',
@@ -32,6 +35,7 @@ import {StatuscardComponent} from '../../../../../shared/components/statuscard/s
         TagcardComponent,
         ProjectStatusSelectComponent,
         StatuscardComponent,
+        ConfirmationModalComponent,
     ],
     templateUrl: './details-overview.component.html',
     styleUrl: './details-overview.component.scss'
@@ -63,6 +67,8 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
 
     private projectId: number | null = null;
     private subscriptions: Subscription[] = [];
+
+    showLeaveModal: boolean = false;
 
     ngOnInit() {
         const routeSubscription = this.route.parent?.params.subscribe(params => {
@@ -145,6 +151,27 @@ export class DetailsOverviewComponent implements OnInit, OnDestroy {
                     this.router.navigate(this.activeAssignmentRoutingService.buildRoute('projects', updatedProject.id.toString()));
                 }
             );
+        }
+    }
+
+    openLeaveModal() {
+        this.showLeaveModal = true;
+    }
+
+    closeLeaveModal() {
+        this.showLeaveModal = false;
+    }
+
+    confirmLeave() {
+        if (this.projectId) {
+            this.projectService.leaveProject(this.projectId).subscribe(() => {
+                this.toastService.showToast('success', 'You have left the project.');
+                this.closeLeaveModal();
+
+                this.router.navigate(
+                    this.activeAssignmentRoutingService.buildRoute('projects')
+                );
+            });
         }
     }
 }

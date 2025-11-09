@@ -1,0 +1,24 @@
+<div class="activity-log">
+
+    @if (!events || events.length === 0) {
+        <div class="empty-state">No activity recorded yet.</div>
+    }
+
+    @for (event of events; track event) {
+        <div class="activity-entry">
+            <fa-icon class="event-icon" [icon]="getIcon(event.type)"></fa-icon>
+
+            <div class="activity-info">
+                <div class="activity-message">
+                    <span class="actor">{{ event.username }}</span>
+                    <span>{{ event.message }}</span>
+                </div>
+
+                <div class="meta">
+                    {{ event.date | date:'mediumDate' }} · {{ event.date | date:'shortTime' }}
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
