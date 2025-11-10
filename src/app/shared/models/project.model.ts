@@ -4,6 +4,7 @@ import { ProjectStatusEnum } from "./ProjectStatus.enum"
 
 export interface Project {
     id: number;
+    gid?: string;
     title: string;
     description: string;
     shortDescription: string;

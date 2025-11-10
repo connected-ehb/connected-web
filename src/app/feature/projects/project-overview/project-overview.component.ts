@@ -20,7 +20,7 @@ import {
 } from '../../../shared/components/project-status-select/project-status-select.component';
 import {ConfirmationModalComponent} from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
-type TabValue = 'all' | 'global' | 'my projects';
+type TabValue = 'all' | 'global' | 'my projects' | 'imported';
 
 type SortValue =
     | 'title-asc'
@@ -48,11 +48,11 @@ interface SortOption {
         ProjectcardComponent,
         CommonModule,
         FormsModule,
-        RouterOutlet,
         ButtonComponent,
         StatuscardComponent,
         ProjectStatusSelectComponent,
-        ConfirmationModalComponent
+        ConfirmationModalComponent,
+        RouterOutlet
     ],
     templateUrl: './project-overview.component.html',
     styleUrl: './project-overview.component.scss'
@@ -106,32 +106,32 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     tabOptions: TabOption[] = [];
 
     ngOnInit(): void {
-        // Subscribe to changes in the active assignment
-        this.isResearcher$.subscribe(isResearcher => {
+        combineLatest([this.isResearcher$, this.isTeacher$]).subscribe(([isResearcher, isTeacher]) => {
+
             if (isResearcher) {
-                this.tabOptions = [{label: 'Global projects', value: 'global'}];
+                this.tabOptions = [
+                    { label: 'My Global Projects', value: 'global' },
+                    { label: 'Imported Projects', value: 'imported' }
+                ];
                 this.selectedTab = 'global';
                 this.loadGlobalProjects();
-            } else {
-                this.tabOptions = [
-                    {label: 'All projects', value: 'all'},
-                    {label: 'Global projects', value: 'global'},
-                    {label: 'My projects', value: 'my projects'}
-                ];
-                this.activeAssignmentSub = this.activeAssignmentService.activeAssignment$.subscribe((activeAssignment) => {
+                return;
+            }
+
+            this.tabOptions = [
+                { label: 'All projects', value: 'all' },
+                { label: 'Researcher projects', value: 'global' },
+                { label: 'My projects', value: 'my projects' }
+            ];
+
+            this.activeAssignmentSub = this.activeAssignmentService.activeAssignment$
+                .subscribe(activeAssignment => {
                     this.activeAssignment = activeAssignment;
-                    // Only reload projects if an active assignment exists.
-                    if (activeAssignment && activeAssignment.assignment) {
+                    if (activeAssignment?.assignment) {
                         this.loadProjects();
                     }
                 });
-            }
 
-
-        });
-
-        // Subscribe to user changes to check for teacher role
-        this.isTeacher$.subscribe(isTeacher => {
             this.viewType = isTeacher ? 'table' : 'card';
         });
     }
@@ -146,15 +146,20 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
     }
 
     changeTab(tab: TabValue): void {
-        if (tab === 'all') {
-            this.selectedTab = 'all';
-            this.loadProjects();
-        } else if (tab === 'global') {
-            this.selectedTab = 'global';
-            this.loadGlobalProjects();
-        } else if (tab === 'my projects') {
-            this.selectedTab = 'my projects';
-            this.loadMyProjects();
+        this.selectedTab = tab;
+        switch (tab) {
+            case 'all':
+                this.loadProjects();
+                break;
+            case 'global':
+                this.loadGlobalProjects();
+                break;
+            case 'imported':
+                this.setProjects(this.projectService.getImportedProjects());
+                break;
+            case 'my projects':
+                this.loadMyProjects();
+                break;
         }
     }
 
@@ -324,9 +329,7 @@ export class ProjectOverviewComponent implements OnInit, OnDestroy {
 
     onMinFreeSpotsChange(value: number | string): void {
         const parsedValue = Number(value);
-        const safeValue = Number.isFinite(parsedValue) && parsedValue >= 0 ? Math.floor(parsedValue) : 0;
-
-        this.minFreeSpots = safeValue;
+        this.minFreeSpots = Number.isFinite(parsedValue) && parsedValue >= 0 ? Math.floor(parsedValue) : 0;
         this.minFreeSpots$.next(this.minFreeSpots);
     }
 
