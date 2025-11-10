@@ -32,7 +32,11 @@ export class ProjectService {
         });
     }
 
-
+    getImportedProjects(): Observable<Project[]> {
+        return this.http.get<Project[]>(`${environment.apiBaseUrl}/api/projects/global/imported`, {
+            withCredentials: true,
+        });
+    }
 
     importProject(projectId: number, assignmentId: number): Observable<Project> {
         return this.http.post<Project>(`${environment.apiBaseUrl}/api/projects/${projectId}/import/${assignmentId}`, {}, {
