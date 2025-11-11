@@ -80,6 +80,31 @@
                     <app-tag-search-component (tagSelected)="addTagToUser($event)"></app-tag-search-component>
                 }
             </div>
+
+
+            <div class="profile-section">
+                <h3 class="section-label">PROJECTS</h3>
+
+                <div class="activity-log">
+                    @if (!projects || projects.length === 0) {
+                        <div class="empty-state">No projects recorded yet.</div>
+                    }
+
+                    @for (project of projects; track project) {
+                        <div class="activity-entry">
+                            <div class="event-icon">
+                                {{ (project.title || '?')[0] }}
+                            </div>
+
+                            <div class="activity-info">
+                                <div class="activity-message">
+                                    <span class="actor">{{ project.title }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
         </section>
 
     </div>

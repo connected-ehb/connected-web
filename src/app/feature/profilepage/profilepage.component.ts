@@ -10,6 +10,8 @@ import { tag } from '../../shared/models/tag.model';
 import { TagSearchComponentComponent } from '../../shared/tag-search-component/tag-search-component.component';
 import { ToastService } from '../../core/services/toast.service';
 import { Subscription } from 'rxjs';
+import {Project} from '../../shared/models/project.model';
+import {ProjectService} from '../../core/services/project.service';
 
 @Component({
     selector: 'app-profilepage',
@@ -29,8 +31,12 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
     showTagInput: boolean = false;
     private currentUser: User | null = null;
     private subscriptions: Subscription[] = [];
+    projects: Project[] = [];
 
-    constructor(private userService: UserService) {}
+    constructor(
+        private userService: UserService,
+        private projectService: ProjectService
+        ) {}
 
     ngOnInit() {
         const userSubscription = this.authFacade.user$.subscribe(user => {
@@ -38,11 +44,23 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
             if (user != null) {
                 const userDetailsSubscription = this.userService.getUserProfile(user.id).subscribe(userDetails => {
                     this.user = userDetails;
+                    if(userDetails?.id){
+                        this.loadUserProjects(userDetails.id.toString());
+                    }else if (user?.id){
+                        this.loadUserProjects(user.id.toString());
+                    }
                 });
                 this.subscriptions.push(userDetailsSubscription);
             }
         });
         this.subscriptions.push(userSubscription);
+    }
+
+    private loadUserProjects(userId: string){
+        this.projectService.getProjectsByUserId(userId).subscribe({
+            next: (projects) => (this.projects = projects || []),
+            error: () => (this.projects = [])
+        });
     }
 
     ngOnDestroy(): void {
