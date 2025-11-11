@@ -174,4 +174,14 @@ export class ProjectService {
             withCredentials: true
         });
     }
+
+    getProjectsByUserId(userId: string): Observable<Project[]> {
+        if (!userId) {
+            throw new Error('User ID is required');
+        }
+        return this.http.get<Project[]>(
+            `${environment.apiBaseUrl}/api/projects/user/${userId}`,
+            { withCredentials: true }
+        );
+    }
 }
